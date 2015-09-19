@@ -34,7 +34,14 @@ module.exports.routes = {
 
   '/': {
     view: 'layout'
-  }
+  },
+
+  /**
+   * APIs
+   */
+
+  'GET /posts': 'PostController.getPosts',
+  'POST /post': 'PostController.createPost'
 
   /***************************************************************************
   *                                                                          *
