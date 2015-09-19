@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('instots')
-  .controller('HomeController', function ($scope, $http) {
+  .controller('HomeController', function ($scope, $http, $mdToast) {
 
     $scope.posts = [];
+    var toastOptions = {position: 'top right', hideDelay: '2000'};
 
     $scope.getPosts = function(){
       $http.get('/posts').then(function(response){
         if(response.data.posts) {
-
           $scope.posts = response.data.posts;
+          $mdToast.show($mdToast.simple(toastOptions).content('Loaded latest posts from world!'));
         }
       });
     };
@@ -30,7 +31,11 @@ angular.module('instots')
 
       $http.post('/post', postObject).then(function(response){
         if(response.data.success) {
-          $scope.posts.push(postObject);
+          $mdToast.show($mdToast.simple(toastOptions).content('Successfully shared your post to world!'));
+          $scope.posts.unshift(postObject);
+          $scope.reset();
+        } else {
+          $mdToast.show($mdToast.simple(toastOptions).content('An error occurred, try again! '));
         }
       });
     };

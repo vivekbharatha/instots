@@ -19,7 +19,7 @@ module.exports = {
     });
   },
   getPosts: function (req, res, next) {
-    Post.find().exec(function (err, posts) {
+    Post.find().sort('createdAt DESC').exec(function (err, posts) {
       if (err) return res.json({error: err});
 
       return res.json({posts: posts});
