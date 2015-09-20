@@ -1,16 +1,16 @@
 <div layout="column">
-  <h1 class="text-center">InstotS</h1>
+  <h1 class="text-center">Instots</h1>
   <md-content layout="column">
-    <form novalidate>
-    <md-input-container>
+    <form name="newPostForm" ng-submit="newPostForm.$valid && post(newPostForm)" novalidate>
+    <md-input-container md-is-error="newPostForm.title.$invalid && (newPostForm.$submitted || newPostForm.title.$dirty)">
       <label>Title</label>
-      <input ng-model="newPost.title" type="text" required>
+      <input name="title" ng-model="newPost.title" type="text" ng-required="true">
     </md-input-container>
-    <md-input-container>
+    <md-input-container ng-class="{'md-input-invalid': newPost.contentError}">
       <label>Message</label>
-      <textarea ng-model="newPost.content" columns="1" md-maxlength="150" required></textarea>
+      <textarea name="content" ng-model="newPost.content" rows="2" md-maxlength="150" ng-class="{'ng-invalid': newPost.contentError}" ></textarea>
     </md-input-container>
-      <md-button class="md-raised md-primary" aria-label="Post" ng-click="post()">Post</md-button>
+      <md-button class="md-raised md-primary" aria-label="Post">Post</md-button>
     </form>
   </md-content>
 
