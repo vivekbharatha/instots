@@ -6,16 +6,16 @@ angular.module('instots')
     $scope.posts = [];
     $scope.toastOptions = {position: 'top right', hideDelay: '2000'};
 
-    $scope.getPosts = function(){
+    $scope.getPosts = function () {
       /*$http.get('/posts').then(function(response){
-        if(response.data.posts) {
-          $scope.posts = response.data.posts;
-          $mdToast.show($mdToast.simple(toastOptions).content('Loaded latest posts from world!'));
-        }
-      });*/
+       if(response.data.posts) {
+       $scope.posts = response.data.posts;
+       $mdToast.show($mdToast.simple(toastOptions).content('Loaded latest posts from world!'));
+       }
+       });*/
 
-      io.socket.get('/posts', function(resObj){
-        if(resObj.posts) {
+      io.socket.get('/posts', function (resObj) {
+        if (resObj.posts) {
           $scope.posts = resObj.posts;
           $mdToast.show($mdToast.simple($scope.toastOptions).content('Loaded latest posts from world!'));
         }
@@ -24,44 +24,43 @@ angular.module('instots')
 
     $scope.getPosts();
 
-    $scope.reset = function(){
-      $scope.newPost = {};
-      $scope.newPost.title = '';
-      $scope.newPost.content = '';
-      $scope.newPost.contentError = false;
-    };
-
-    $scope.reset();
 
     /**
      * Sails socket events
      */
 
-    io.socket.on('post', function(obj){
-      if(obj.verb == 'created') {
+    io.socket.on('post', function (obj) {
+      if (obj.verb == 'created') {
         $mdToast.show($mdToast.simple($scope.toastOptions).content('A new post'));
         $scope.posts.unshift(obj.data);
       }
     });
 
-    $scope.showForm = function(ev) {
+    $scope.showForm = function (ev) {
       $mdDialog.show({
-      controller: DialogController,
-      templateUrl: '/views/newForm.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true
-    });
-
-    }
-
-
-
+        controller: PostController,
+        templateUrl: '/views/newForm.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
+      }).then(function (resObj) {
+        $scope.posts.unshift(resObj.post);
+      });
+    };
   });
-function DialogController($scope, $mdDialog, $mdToast) {
-        
-  $scope.post = function(newPostForm) {
-    if($scope.newPost.content=='') {
+function PostController($scope, $mdDialog, $mdToast) {
+
+  $scope.reset = function () {
+    $scope.newPost = {};
+    $scope.newPost.title = '';
+    $scope.newPost.content = '';
+    $scope.newPost.contentError = false;
+  };
+
+  $scope.reset();
+
+  $scope.post = function (newPostForm) {
+    if ($scope.newPost.content == '') {
       $scope.newPost.contentError = true;
       return;
     }
@@ -72,23 +71,20 @@ function DialogController($scope, $mdDialog, $mdToast) {
     };
 
     /*$http.post('/post', postObject).then(function(response){
-      if(response.data.success) {
-        $mdToast.show($mdToast.simple(toastOptions).content('Successfully shared your post to world!'));
-        $scope.posts.unshift(response.data.post);
-        $scope.reset();
-      } else {
-        $mdToast.show($mdToast.simple(toastOptions).content('An error occurred, try again! '));
-      }
-    });*/
+     if(response.data.success) {
+     $mdToast.show($mdToast.simple(toastOptions).content('Successfully shared your post to world!'));
+     $scope.posts.unshift(response.data.post);
+     $scope.reset();
+     } else {
+     $mdToast.show($mdToast.simple(toastOptions).content('An error occurred, try again! '));
+     }
+     });*/
 
-    io.socket.post('/post', postObject, function(resObj){
+    io.socket.post('/post', postObject, function (resObj) {
       console.log('resObj', resObj);
-      if(resObj.success) {
+      if (resObj.success) {
         $mdToast.show($mdToast.simple($scope.toastOptions).content('Successfully shared your post to world!'));
-        $scope.posts.unshift(resObj.post);
-        $scope.reset();
-        console.log('newPosts', posts);
-        $scope.closeDialog();
+        $scope.closeDialog(resObj);
       } else {
         $mdToast.show($mdToast.simple($scope.toastOptions).content('An error occurred, try again! '));
       }
@@ -96,8 +92,9 @@ function DialogController($scope, $mdDialog, $mdToast) {
       newPostForm.$setUntouched();
     });
   };
-  $scope.closeDialog = function() {
-    $mdDialog.hide();
+
+  $scope.closeDialog = function (resObj) {
+    $mdDialog.hide(resObj);
     $scope.reset();
   }
 }
