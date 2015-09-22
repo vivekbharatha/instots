@@ -1,0 +1,38 @@
+<md-dialog aria-label="Post to world" class="new-from-dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Post to world</h2>
+      <span flex></span>
+      <!-- <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+      </md-button> -->
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px;max-height:810px; ">
+    <md-content layout="column">
+    <form name="newPostForm" ng-submit="newPostForm.$valid && post(newPostForm)" novalidate>
+    <md-input-container md-is-error="newPostForm.title.$invalid && (newPostForm.$submitted || newPostForm.title.$dirty)">
+      <label>Title</label>
+      <input name="title" ng-model="newPost.title" type="text" ng-required="true">
+    </md-input-container>
+    <md-input-container ng-class="{'md-input-invalid': newPost.contentError}">
+      <label>Message</label>
+      <textarea name="content" ng-model="newPost.content" rows="2" md-maxlength="150" ng-class="{'ng-invalid': newPost.contentError}" ></textarea>
+    </md-input-container>
+      <md-button class="md-raised md-primary" flex aria-label="Post">Post</md-button>
+    </form>
+  </md-content>
+  </md-dialog-content>
+  <!-- <div class="md-actions" layout="row">
+    <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+      More on Wikipedia
+    </md-button>
+    <span flex></span>
+    <md-button ng-click="answer('not useful')" >
+     Not Useful
+    </md-button>
+    <md-button ng-click="answer('useful')" style="margin-right:20px;" >
+      Useful
+    </md-button>
+  </div> -->
+</md-dialog>

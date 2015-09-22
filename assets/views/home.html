@@ -1,18 +1,10 @@
 <div layout="column">
   <h1 class="text-center">Instots</h1>
-  <md-content layout="column">
-    <form name="newPostForm" ng-submit="newPostForm.$valid && post(newPostForm)" novalidate>
-    <md-input-container md-is-error="newPostForm.title.$invalid && (newPostForm.$submitted || newPostForm.title.$dirty)">
-      <label>Title</label>
-      <input name="title" ng-model="newPost.title" type="text" ng-required="true">
-    </md-input-container>
-    <md-input-container ng-class="{'md-input-invalid': newPost.contentError}">
-      <label>Message</label>
-      <textarea name="content" ng-model="newPost.content" rows="2" md-maxlength="150" ng-class="{'ng-invalid': newPost.contentError}" ></textarea>
-    </md-input-container>
-      <md-button class="md-raised md-primary" aria-label="Post">Post</md-button>
-    </form>
-  </md-content>
+  
+
+  <md-button class="md-fab md-primary" aria-label="New Post" ng-click="showForm($event)">
+            New
+        </md-button>
 
   <md-content layout="column" layout-fill style="padding-bottom: 32px;">
     <md-whiteframe class="md-whiteframe-z2" ng-repeat="post in posts" layout layout-aling="center center">
