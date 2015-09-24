@@ -18,6 +18,10 @@ module.exports = {
     },
     postedBy: {
       type: 'string'
+    },
+    comments: {
+      collection: 'comment',
+      via: 'post'
     }
   }
 };

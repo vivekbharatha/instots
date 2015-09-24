@@ -48,6 +48,7 @@ angular.module('instots')
       });
     };
   });
+
 function PostController($scope, $mdDialog, $mdToast) {
 
   $scope.reset = function () {

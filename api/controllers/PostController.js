@@ -24,7 +24,7 @@ module.exports = {
   },
   getPosts: function (req, res, next) {
 
-    Post.find().sort('createdAt DESC').exec(function (err, posts) {
+    Post.find().populate('comments').sort('createdAt DESC').exec(function (err, posts) {
       if (err) return res.json({error: err});
       if (req.isSocket) {
         Post.watch(req);
