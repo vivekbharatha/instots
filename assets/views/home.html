@@ -1,6 +1,6 @@
 <div layout="column">
   <h1 class="text-center">Instots</h1>
-  
+
 
   <md-button class="md-fab md-primary" aria-label="New Post" ng-click="showForm($event)">
             New
@@ -11,6 +11,12 @@
       <div layout="column">
         <h4>{{post.title}}</h4>
         <p>{{post.content}}</p>
+        <form>
+          <md-input-container>
+            <label>Comment</label>
+            <input name="comment" ng-model="post.comment" type="text" ng-required="true">
+          </md-input-container>
+        </form>
       </div>
     </md-whiteframe>
   </md-content>
