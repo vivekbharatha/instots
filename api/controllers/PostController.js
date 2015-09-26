@@ -32,6 +32,15 @@ module.exports = {
       }
       return res.json({posts: posts});
     });
+  },
+  commentToPost: function(req, res, next) {
+    var postId = req.param('postId'),
+      comment = req.param('comment');
+
+    Comment.create({post: postId, comment: comment}).exec(function(err, comment) {
+      if(err) return res.json({error: 'Error saving comment to post'});
+      return res.json({comment: comment.comment, postId: comment.post});
+    });
   }
 
 };

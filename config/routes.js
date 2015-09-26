@@ -41,7 +41,8 @@ module.exports.routes = {
    */
 
   'GET /posts': 'PostController.getPosts',
-  'POST /post': 'PostController.createPost'
+  'POST /post': 'PostController.createPost',
+  'POST /post-comment': 'PostController.commentToPost'
 
   /***************************************************************************
   *                                                                          *

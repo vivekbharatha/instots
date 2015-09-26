@@ -7,16 +7,15 @@
         </md-button>
 
   <md-content layout="column" layout-fill style="padding-bottom: 32px;">
-    <md-whiteframe class="md-whiteframe-z2" ng-repeat="post in posts" layout layout-aling="center center">
+    <md-whiteframe class="md-whiteframe-z2" ng-repeat="post in posts track by post.id" layout layout-aling="center center">
       <div layout="column">
         <h4>{{post.title}}</h4>
         <p>{{post.content}}</p>
-        <form>
           <md-input-container>
             <label>Comment</label>
-            <input name="comment" ng-model="post.comment" type="text" ng-required="true">
+            <input name="comment" ng-model="newComment[post.id]" type="text" ng-required="true">
+            <md-button class="md-raised md-primary" flex aria-label="Post" ng-click="postComment(post.id)" >Comment</md-button>
           </md-input-container>
-        </form>
       </div>
     </md-whiteframe>
   </md-content>

@@ -5,6 +5,7 @@ angular.module('instots')
 
     $scope.posts = [];
     $scope.toastOptions = {position: 'top right', hideDelay: '2000'};
+    $scope.newComment = [];
 
     $scope.getPosts = function () {
       /*$http.get('/posts').then(function(response){
@@ -23,7 +24,6 @@ angular.module('instots')
     };
 
     $scope.getPosts();
-
 
     /**
      * Sails socket events
@@ -47,6 +47,21 @@ angular.module('instots')
         $scope.posts.unshift(resObj.post);
       });
     };
+
+    $scope.postComment = function(postId) {
+      var comment = $scope.newComment[postId];
+      if(comment) {
+        io.socket.post('/post-comment', {postId:postId, comment: comment}, function(resData){
+          if(resData.postId == postId) {
+            $mdToast.show($mdToast.simple($scope.toastOptions).content('Comment Added'));
+            $scope.newComment[postId] = '';
+          } else {
+            $mdToast.show($mdToast.simple($scope.toastOptions).content('Error Occured'));
+          }
+        });
+      }
+    };
+
   });
 
 function PostController($scope, $mdDialog, $mdToast) {
